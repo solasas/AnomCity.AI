@@ -1,0 +1,3 @@
+# This file is intentionally empty.
+# Its presence tells Python that 'api/' is a package,
+# allowing other files to import from it with: from api.schemas import ...

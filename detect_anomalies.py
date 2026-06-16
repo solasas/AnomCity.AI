@@ -13,6 +13,7 @@ Outputs:
 
 import pandas as pd
 import numpy as np
+import joblib                                 # saves/loads Python objects to disk
 from sklearn.ensemble import IsolationForest  # the algorithm itself
 import matplotlib.pyplot as plt               # for plotting
 
@@ -124,7 +125,18 @@ print("Plot saved to anomaly_scores.png")
 
 
 # ---------------------------------------------------------------------------
-# STEP 6 — Save results back to CSV
+# STEP 6 — Save the trained model to disk
+# ---------------------------------------------------------------------------
+# joblib.dump() serializes the model object to a binary file (.pkl).
+# The API server will load this file at startup instead of re-training.
+# We also save the feature list so the API knows the correct column order.
+MODEL_PATH = "anomaly_model.pkl"
+joblib.dump({"model": model, "features": FEATURES}, MODEL_PATH)
+print(f"Model saved to '{MODEL_PATH}'")
+
+
+# ---------------------------------------------------------------------------
+# STEP 7 — Save results back to CSV
 # ---------------------------------------------------------------------------
 # Overwrite the merged file with the two new columns appended.
 # index=True keeps the timestamp in the output.
